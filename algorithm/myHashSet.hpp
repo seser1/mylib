@@ -2,7 +2,7 @@
 #include<vector>
 #include"myHash.hpp"
 
-//numbers of elements of hashtable
+//numbers of element of hashtable
 #define EL_NUM 1024
 
 using namespace std;
@@ -18,6 +18,7 @@ namespace mylib {
 		//HashSet();
 		~HashSet();
 		void add(T t);
+		void remove(T t);
 		bool contains(T t);
 	};
 
@@ -33,15 +34,23 @@ namespace mylib {
 		delete []table;
 	}
 
-	//add
+	//add t to hash table
 	template <typename T>
 	void HashSet<T>::add(T t) {
 		int hash = mylib::myHash(t, EL_NUM);
-
 		table[hash].push_back(t);
 	}
 
-	//if t is contained in hash table
+	//remove t from hash table
+	template <typename T>
+	void HashSet<T>::remove(T t) {
+		int hash = mylib::myHash(t, EL_NUM);
+		vector<T>::iterator it = find(table[hash].begin(), table[hash].end(), t);
+		if (it != table[hash].end())
+			table[hash].erase(it);
+	}
+
+	//t is contained in hash table or not
 	template <typename T>
 	bool HashSet<T>::contains(T t) {
 		int hash = mylib::myHash(t, EL_NUM);
