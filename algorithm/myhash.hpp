@@ -1,5 +1,8 @@
 #pragma once
 
+//numbers of element of hashtable
+#define EL_NUM 1024
+
 
 namespace mylib {
 

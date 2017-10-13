@@ -2,14 +2,11 @@
 #include<vector>
 #include"myHash.hpp"
 
-//numbers of element of hashtable
-#define EL_NUM 1024
-
 using namespace std;
 
 namespace mylib {
 
-	//test method for creating hashset
+	//my class for using hashset
 	template <typename T>
 	class HashSet {
 	private:
