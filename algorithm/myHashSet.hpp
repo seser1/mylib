@@ -1,9 +1,9 @@
 #pragma once
 #include<vector>
+#include"myHash.hpp"
 
 //numbers of elements of hashtable
 #define EL_NUM 1024
-
 
 using namespace std;
 
@@ -13,42 +13,41 @@ namespace mylib {
 	template <typename T>
 	class HashSet {
 	private:
-		vector<T> table[];
+		vector<T> table[EL_NUM];
 	public:
-		HashSet();
-		void add(T value);
-		int search(T value);
+		//HashSet();
+		~HashSet();
+		void add(T t);
+		bool contains(T t);
 	};
 
 	//constructor
+	/*
 	template <typename T>
-	HashSet::HashSet() {
-		table = new T[EL_NUM];
-	}
+	HashSet<T>::HashSet() {
+	}*/
 
 	//destructor
 	template <typename T>
-	HashSet::~HashSet() {
-		delete[]table;
+	HashSet<T>::~HashSet() {
+		delete []table;
 	}
-
 
 	//add
 	template <typename T>
-	void HashSet::add(T t) {
-		auto hash = mylib::myHash(t);
-		if (table[hash] != NULL)
-			table[hash].push_back(t);
-		else
-			table[hash] = new vector<T>(t);
+	void HashSet<T>::add(T t) {
+		int hash = mylib::myHash(t, EL_NUM);
+
+		table[hash].push_back(t);
 	}
 
-	//search
+	//if t is contained in hash table
 	template <typename T>
-	int HashSet::search(T t) {
+	bool HashSet<T>::contains(T t) {
+		int hash = mylib::myHash(t, EL_NUM);
+		auto it = find(table[hash].begin(), table[hash].end(), t);
 
-	//	auto it = table[t].find(key);
-	//	return it->second;
+		return it != table[hash].end();
 	}
 
 }
