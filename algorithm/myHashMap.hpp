@@ -33,13 +33,16 @@ namespace mylib {
 	}
 
 	//get V from K
-	//(not implemented the function there is no value connected the key
+	//(if there is no value associated to the key, return NULL)
 	template <typename K, typename V>
 	V HashMap<K, V>::get(K key) {
 		int hash = mylib::myHash(key, EL_NUM);
 
 		auto it = table[hash].find(key) ;
-		return it->second;
+		if (it != table[hash].end())
+			return it->second;
+		else
+			return NULL;
 	}
 
 }
