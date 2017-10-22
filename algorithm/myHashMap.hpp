@@ -16,6 +16,7 @@ namespace mylib {
 		~HashMap();
 		void add(K key, V value);
 		V get(K key);
+		void remove(K key);
 	};
 
 	//destructor
@@ -44,5 +45,24 @@ namespace mylib {
 		else
 			return NULL;
 	}
+
+	//remove by K
+	template <typename K, typename V>
+	void HashMap<K, V>::remove(K key) {
+		int hash = mylib::myHash(key, EL_NUM);
+
+		auto it = table[hash].find(key);
+		if (it != table[hash].end())
+			table[hash].erase(it);
+	}
+
+	//k(primary key) is contained in hash table or not
+/*	template <typename K, typename V>
+	bool HashMap<K, V>::contains(K k) {
+		int hash = mylib::myHash(k, EL_NUM);
+		auto it = find(table[hash].begin(), table[hash].end(), t);
+
+		return it != table[hash].end();
+	}*/
 
 }
