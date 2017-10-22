@@ -1,6 +1,8 @@
 #pragma once
 #include<vector>
 #include"myHash.hpp"
+#include"myHashSetIterator.hpp"
+
 
 using namespace std;
 
@@ -9,13 +11,19 @@ namespace mylib {
 	//my class for using hashset
 	template <typename T>
 	class HashSet {
+		friend HashSetIterator<T>;
+
 	private:
 		vector<T> table[EL_NUM];
+		size_t size = {};
 	public:
+		typedef HashSetIterator<T> it;
+
 		//HashSet();
 		~HashSet();
 		void add(T t);
 		void remove(T t);
+		size_t getSize();
 		bool contains(T t);
 	};
 
@@ -35,7 +43,10 @@ namespace mylib {
 	template <typename T>
 	void HashSet<T>::add(T t) {
 		int hash = mylib::myHash(t, EL_NUM);
-		table[hash].push_back(t);
+		if (! this->contains(t)) {
+			table[hash].push_back(t);
+			size++;
+		}
 	}
 
 	//remove t from hash table
@@ -43,8 +54,17 @@ namespace mylib {
 	void HashSet<T>::remove(T t) {
 		int hash = mylib::myHash(t, EL_NUM);
 		vector<T>::iterator it = find(table[hash].begin(), table[hash].end(), t);
-		if (it != table[hash].end())
+		if (it != table[hash].end()) {
 			table[hash].erase(it);
+			size--;
+		}
+	}
+
+
+	//get numbers of elements the hashset contains
+	template <typename T>
+	size_t HashSet<T>::getSize() {
+		return size;
 	}
 
 	//t is contained in hash table or not
