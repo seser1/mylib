@@ -17,6 +17,7 @@ namespace mylib {
 		void add(K key, V value);
 		V get(K key);
 		void remove(K key);
+		bool contains(K key);
 	};
 
 	//destructor
@@ -57,12 +58,10 @@ namespace mylib {
 	}
 
 	//k(primary key) is contained in hash table or not
-/*	template <typename K, typename V>
+	template <typename K, typename V>
 	bool HashMap<K, V>::contains(K k) {
 		int hash = mylib::myHash(k, EL_NUM);
-		auto it = find(table[hash].begin(), table[hash].end(), t);
-
-		return it != table[hash].end();
-	}*/
+		return table[hash].count(k);
+	}
 
 }
