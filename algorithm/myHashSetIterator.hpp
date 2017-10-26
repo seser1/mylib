@@ -23,31 +23,30 @@ namespace mylib {
 		HashSetIterator(const HashSetIterator& iterator);
 
 	public:
-//		HashSetIterator& operator++();
-//		HashSetIterator operator++(T);
-
-		HashSetIterator next();
-
 		T& operator*();
+		HashSetIterator<T>& next();
+		//		HashSetIterator& operator++();
+		//		HashSetIterator operator++(T);
 	};
 
 	template <typename T>
-	HashSetIterator::HashSetIterator(const HashSetIterator& iterator)
+	HashSetIterator<T>::HashSetIterator(const HashSetIterator& iterator)
 	{
 		this.index = iterator.index;
 		this.hashSet = iterator.hashSet;
 	}
 
 	template <typename T>
-	T& HashSetIterator::operator*()
+	T& HashSetIterator<T>::operator*()
 	{
 		//not considering about table[index] contains more than one vectors
 		return this.hashSet->table[index];
 	}
 
 	template <typename T>
-	HashSetIterator HashSetIterator::next()
+	HashSetIterator<T>& HashSetIterator<T>::next()
 	{
+		return null;
 	}
 
 }
