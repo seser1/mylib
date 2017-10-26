@@ -5,15 +5,24 @@ using namespace std;
 
 namespace mylib {
 
+	//!!!!!!
+	//myForwordList implementation
+	//Not completed yet
+	//!!!!!!
+
 	template <typename T>
-	struct node {
+	struct Node {
 	public:
 		T value;
 		T* next;
 
-		node(T val) {
+		Node(T val) {
 			this->value = val;
 			this->next = null;
+		}
+		Node(T val, T* ne) {
+			this->value = val;
+			this->next = ne;
 		}
 	};
 
@@ -23,11 +32,33 @@ namespace mylib {
 	class myForwardList {
 
 	private:
+		Node* node;
 
 	public:
-
-
+		myForwardList();
+		myForwardList(T t);
+		void add(T t);
 	};
+
+
+	//default constructor
+	template <typename T>
+	myForwardList<T>::myForwardList() {
+	}
+
+	//constructor with t
+	template <typename T>
+	myForwardList<T>::myForwardList(T t) {
+		node = new Node(t);
+	}
+
+	//add t to List
+	template <typename T>
+	void myForwardList<T>::add(T t) {
+			node* tmp = new Node(t);
+			tmp->next = node;
+			node = tmp;
+	}
 
 
 }
