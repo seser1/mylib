@@ -8,6 +8,23 @@ using namespace std;
 
 namespace mylib {
 
+	//keys put into hash table
+	//next* is for iterator::next
+	template <typename T>
+	struct key {
+		vector<T> value;
+		key* next;
+
+		key(T val) {
+			this->value = val;
+			this->next = null;
+		}
+		key(T val, key* ne) {
+			this->value = val;
+			this->next = ne;
+		}
+	};
+
 	//my class for using hashset
 	template <typename T>
 	class HashSet {
