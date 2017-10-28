@@ -15,9 +15,13 @@ namespace mylib {
 		vector<T> value;
 		key* next;
 
+		key() {
+			this->value = NULL;
+			this->next = nullptr;
+		}
 		key(T val) {
 			this->value = val;
-			this->next = null;
+			this->next = nullptr;
 		}
 		key(T val, key* ne) {
 			this->value = val;
@@ -31,12 +35,14 @@ namespace mylib {
 		friend HashSetIterator<T>;
 
 	private:
-		vector<T> table[EL_NUM];
+		key table[EL_NUM];
 		size_t size = {};
+		key* index;
+
 	public:
 		typedef HashSetIterator<T> it;
 
-		//HashSet();
+		HashSet();
 		~HashSet();
 		void add(T t);
 		void remove(T t);
@@ -45,10 +51,11 @@ namespace mylib {
 	};
 
 	//constructor
-	/*
 	template <typename T>
 	HashSet<T>::HashSet() {
-	}*/
+		for (int i=0; i<(sizeof(table)/sizeof(key)); i++)
+			table[i]=nullptr;
+	}
 
 	//destructor
 	template <typename T>
@@ -59,24 +66,31 @@ namespace mylib {
 	//add t to hash table
 	template <typename T>
 	void HashSet<T>::add(T t) {
+		//if there is already same value, do not add
+		if (this->contains(t))
+			return;
+
 		int hash = mylib::myHash(t, EL_NUM);
-		if (! this->contains(t)) {
-			table[hash].push_back(t);
-			size++;
+		//if there is no key corresponding to the hash, add new key
+		if (table[hash] == nullptr) {
+			table[hash] = new key<T>();
+			table[hash].next = index;
+			index = &(table[hash]);
 		}
+		table[hash].value->push_back(t);
+		size++;
 	}
 
 	//remove t from hash table
 	template <typename T>
 	void HashSet<T>::remove(T t) {
 		int hash = mylib::myHash(t, EL_NUM);
-		vector<T>::iterator it = find(table[hash].begin(), table[hash].end(), t);
-		if (it != table[hash].end()) {
-			table[hash].erase(it);
+		vector<T>::iterator it = find(table[hash].value.begin(), table[hash].value.end(), t);
+		if (it != table[hash].value.end()) {
+			table[hash].value.erase(it);
 			size--;
 		}
 	}
-
 
 	//get numbers of elements the hashset contains
 	template <typename T>
@@ -88,9 +102,9 @@ namespace mylib {
 	template <typename T>
 	bool HashSet<T>::contains(T t) {
 		int hash = mylib::myHash(t, EL_NUM);
-		auto it = find(table[hash].begin(), table[hash].end(), t);
+		auto it = find(table[hash].value->begin(), table[hash].value->end(), t);
 
-		return it != table[hash].end();
+		return it != table[hash].value.end();
 	}
 
 }
