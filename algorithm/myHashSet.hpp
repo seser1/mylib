@@ -20,6 +20,8 @@ namespace mylib {
 //			this->value = NULL;
 			this->next = nullptr;
 		}
+		//At this time, there is no point struct:key is created with some arguments
+		//So below methods wont be used
 		key(T val) {
 			this->value.push_back(val);
 			this->next = nullptr;
@@ -71,13 +73,15 @@ namespace mylib {
 			return;
 
 		int hash = mylib::myHash(t, EL_NUM);
+		vector<T>* val = &table[hash].value;
+
 		//if there is no key corresponding to the hash, add new key
-		if (table[hash].value.empty()) {
+		if (val->empty()) {
 //			table[hash] = std::make_shared(new key<T>());
 			table[hash].next = index;
 			index = &(table[hash]);
 		}
-		table[hash].value.push_back(t);
+		val->push_back(t);
 		size++;
 	}
 
@@ -85,9 +89,10 @@ namespace mylib {
 	template <typename T>
 	void HashSet<T>::remove(T t) {
 		int hash = mylib::myHash(t, EL_NUM);
-		vector<T>::iterator it = find(table[hash].value.begin(), table[hash].value.end(), t);
-		if (it != table[hash].value.end()) {
-			table[hash].value.erase(it);
+		vector<T>* val = &table[hash].value;
+
+		if (it != val->end()) {
+			val->erase(it);
 			size--;
 		}
 	}
@@ -102,9 +107,11 @@ namespace mylib {
 	template <typename T>
 	bool HashSet<T>::contains(T t) {
 		int hash = mylib::myHash(t, EL_NUM);
-		auto it = find(table[hash].value.begin(), table[hash].value.end(), t);
+		vector<T>* val = &table[hash].value;
 
-		return it != table[hash].value.end();
+		auto it = find(val->begin(), val->end(), t);
+
+		return it != val->end();
 	}
 
 }
