@@ -1,5 +1,6 @@
 #pragma once
 #include<vector>
+#include<memory>
 #include"myHash.hpp"
 #include"myHashSetIterator.hpp"
 
@@ -16,15 +17,15 @@ namespace mylib {
 		key* next;
 
 		key() {
-			this->value = NULL;
+//			this->value = NULL;
 			this->next = nullptr;
 		}
 		key(T val) {
-			this->value = val;
+			this->value.push_back(val);
 			this->next = nullptr;
 		}
 		key(T val, key* ne) {
-			this->value = val;
+			this->value.push_back(val);
 			this->next = ne;
 		}
 	};
@@ -35,9 +36,9 @@ namespace mylib {
 		friend HashSetIterator<T>;
 
 	private:
-		key table[EL_NUM];
+		key<T> table[EL_NUM];
 		size_t size = {};
-		key* index;
+		key<T>* index;
 
 	public:
 		typedef HashSetIterator<T> it;
@@ -53,14 +54,13 @@ namespace mylib {
 	//constructor
 	template <typename T>
 	HashSet<T>::HashSet() {
-		for (int i=0; i<(sizeof(table)/sizeof(key)); i++)
-			table[i]=nullptr;
+		for (int i=0; i<(sizeof(table)/sizeof(key<T>)); i++)
+			table[i]=NULL;
 	}
 
 	//destructor
 	template <typename T>
 	HashSet<T>::~HashSet() {
-		delete []table;
 	}
 
 	//add t to hash table
@@ -72,12 +72,12 @@ namespace mylib {
 
 		int hash = mylib::myHash(t, EL_NUM);
 		//if there is no key corresponding to the hash, add new key
-		if (table[hash] == nullptr) {
-			table[hash] = new key<T>();
+		if (table[hash].value.empty()) {
+//			table[hash] = std::make_shared(new key<T>());
 			table[hash].next = index;
 			index = &(table[hash]);
 		}
-		table[hash].value->push_back(t);
+		table[hash].value.push_back(t);
 		size++;
 	}
 
@@ -102,7 +102,7 @@ namespace mylib {
 	template <typename T>
 	bool HashSet<T>::contains(T t) {
 		int hash = mylib::myHash(t, EL_NUM);
-		auto it = find(table[hash].value->begin(), table[hash].value->end(), t);
+		auto it = find(table[hash].value.begin(), table[hash].value.end(), t);
 
 		return it != table[hash].value.end();
 	}
