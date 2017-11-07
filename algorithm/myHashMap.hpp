@@ -23,7 +23,6 @@ namespace mylib {
 	//destructor
 	template <typename K, typename V>
 	HashMap<K, V>::~HashMap() {
-		delete[]table;
 	}
 
 	//add to hash table
