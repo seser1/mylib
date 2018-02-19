@@ -10,7 +10,7 @@ namespace mylib {
 
 	public:
 		template<typename T>
-		static string toString(T data);
+		static string toString(T *data);
 	};
 
 }
