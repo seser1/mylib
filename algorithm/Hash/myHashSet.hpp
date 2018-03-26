@@ -9,7 +9,21 @@ using namespace std;
 
 namespace mylib {
 
-	//keys put into hash table
+	//---------------------------
+	//
+	//****My Hash Set****
+	//
+	//Search: O(1)
+	//Insert: O(1)
+	//Delete: O(1)
+	//Refer: O(n) (using iterator)
+	//
+	//Random access: not allowed
+	//
+	//---------------------------
+
+
+	//Keys put into hash table
 	//next* is for iterator::next
 	template <typename T>
 	struct key {
@@ -17,11 +31,11 @@ namespace mylib {
 		key* next;
 
 		key() {
-//			this->value = NULL;
 			this->next = nullptr;
 		}
 		//At this time, there is no point struct:key is created with some arguments
 		//So below methods wont be used
+		/*
 		key(T val) {
 			this->value.push_back(val);
 			this->next = nullptr;
@@ -29,10 +43,10 @@ namespace mylib {
 		key(T val, key* ne) {
 			this->value.push_back(val);
 			this->next = ne;
-		}
+		}*/
 	};
 
-	//my class for using hashset
+	//My class for using hashset
 	template <typename T>
 	class HashSet {
 		friend HashSetIterator<T>;
@@ -51,13 +65,18 @@ namespace mylib {
 		void remove(T t);
 		size_t getSize();
 		bool contains(T t);
+
+		//For implementing iterator
+		const key<T>& operator*();
+		key<T>& operator++();
+		bool operator!=(const key<T>& v);
 	};
 
 	//constructor
 	template <typename T>
 	HashSet<T>::HashSet() {
-		for (int i=0; i<(sizeof(table)/sizeof(key<T>)); i++)
-			table[i]=NULL;
+//		for (int i=0; i<(sizeof(table)/sizeof(key<T>)); i++)
+//			table[i]=nullptr;
 	}
 
 	//destructor
@@ -77,7 +96,6 @@ namespace mylib {
 
 		//if there is no key corresponding to the hash, add new key
 		if (val->empty()) {
-//			table[hash] = std::make_shared(new key<T>());
 			table[hash].next = index;
 			index = &(table[hash]);
 		}

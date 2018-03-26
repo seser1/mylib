@@ -7,6 +7,19 @@ using namespace std;
 
 namespace mylib {
 
+	//---------------------------
+	//
+	//****My Hash Map****
+	//
+	//Refer: O(1)
+	//Add: O(1)
+	//Delete: O(1)
+	//
+	//Random access: not allowed
+	//
+	//---------------------------
+
+
 	//my class for using hashmap
 	template <typename K, typename V>
 	class HashMap {
